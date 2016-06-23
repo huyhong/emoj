@@ -4,6 +4,7 @@ const readline = require('readline');
 const meow = require('meow');
 const logUpdate = require('log-update');
 const chalk = require('chalk');
+const copyPaste = require('copy-paste');
 const debounce = require('lodash.debounce');
 const hasAnsi = require('has-ansi');
 const emoj = require('./');
@@ -24,7 +25,12 @@ const cli = meow(`
 `);
 
 if (cli.input.length > 0) {
-	fetch(cli.input[0]).then(console.log);
+	fetch(cli.input[0]).then(function(response) {
+			// Copy first emoji to clipboard
+			copyPaste.copy(response.split('  ')[0]);
+			console.log(response);
+		}
+	);
 	return;
 }
 
